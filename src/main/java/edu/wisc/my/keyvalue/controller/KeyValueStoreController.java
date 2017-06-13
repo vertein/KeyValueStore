@@ -25,7 +25,7 @@ public class KeyValueStoreController{
     private IKeyValueService keyValueService;
     private Environment env;
 
-    private String usernameAttribute;
+    private String[] usernameAttribute;
 
     private static final String ACCESS_ERROR="No username set in header, entity manager set properly?";
 

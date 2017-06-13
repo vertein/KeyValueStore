@@ -19,10 +19,10 @@ public class KeyValueServiceImpl implements IKeyValueService {
 
     private KeyValueRepository keyValueRepository;
     private Environment env;
-    private String usernameAttribute;
+    private String[] usernameAttribute;
 
     @Value("${usernameAttribute}")
-    public void setUsernameAttr(String attr) {
+    public void setUsernameAttr(String[] attr) {
         usernameAttribute = attr;
     }
 
@@ -80,7 +80,13 @@ public class KeyValueServiceImpl implements IKeyValueService {
 
     @Override
     public boolean isAuthorized(String scope, HttpServletRequest request, METHOD method) {
-        if(request.getHeader(usernameAttribute) == null) {
+        boolean returnUnauthorized = true;
+        for(attribute:usernameAttribute){
+            if(request.getHeader(attribute) != null){
+                returnUnauthorized = false;
+            }
+        }
+        if(returnUnauthorized) {
             return false;
         }
 
@@ -106,7 +112,12 @@ public class KeyValueServiceImpl implements IKeyValueService {
 
     private String getPrefix (HttpServletRequest request, String scope) {
       if(isByUser(scope)) {
-        String username = request.getHeader(usernameAttribute);
+        String username = null;
+        for(attribute:usernameAttribute){
+            if(StringUtils.isNotEmpty(request.getHeader(attribute)){
+                username = request.getHeader(attribute)
+            }
+        }
         return scope != null ? scope +":"+ username : username;
       } else {
         return scope;
