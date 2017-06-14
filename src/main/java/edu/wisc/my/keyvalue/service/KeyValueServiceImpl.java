@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import org.apache.commons.lang3.StringUtils;
+
 import edu.wisc.my.keyvalue.model.KeyValue;
 import edu.wisc.my.keyvalue.repository.KeyValueRepository;
 
@@ -81,7 +83,7 @@ public class KeyValueServiceImpl implements IKeyValueService {
     @Override
     public boolean isAuthorized(String scope, HttpServletRequest request, METHOD method) {
         boolean returnUnauthorized = true;
-        for(attribute:usernameAttribute){
+        for(String attribute:usernameAttribute){
             if(request.getHeader(attribute) != null){
                 returnUnauthorized = false;
             }
@@ -113,9 +115,9 @@ public class KeyValueServiceImpl implements IKeyValueService {
     private String getPrefix (HttpServletRequest request, String scope) {
       if(isByUser(scope)) {
         String username = null;
-        for(attribute:usernameAttribute){
-            if(StringUtils.isNotEmpty(request.getHeader(attribute)){
-                username = request.getHeader(attribute)
+        for(String attribute:usernameAttribute){
+            if(StringUtils.isNotEmpty(request.getHeader(attribute))){
+                username = request.getHeader(attribute);
             }
         }
         return scope != null ? scope +":"+ username : username;

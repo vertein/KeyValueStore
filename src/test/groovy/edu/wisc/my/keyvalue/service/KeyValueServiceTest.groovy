@@ -30,7 +30,7 @@ class KeyValueServiceTest {
   @Mock KeyValueRepository keyValueRepository;
   private MockEnvironment env = new MockEnvironment();
 
-  final String usernameAttribute = "uid";
+  final String[] usernameAttribute = {"dummy","uid";
 
   @Before()
   void setup() {
